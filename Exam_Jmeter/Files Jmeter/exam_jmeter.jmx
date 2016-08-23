@@ -463,10 +463,10 @@ import java.util.Date;
 Date now = new Date();
 Calendar c = Calendar.getInstance();
 c.setTime(now);
-c.add(Calendar.MINUTE, 180); // add 180 minutes to current time
-Date now_plus_5_minutes = c.getTime();
+c.add(Calendar.HOUR, 3); // add 3 hours to time
+Date now_plus_3_hour = c.getTime();
 SimpleDateFormat sdf = new SimpleDateFormat(&quot;HH:mm:ss&quot;);      
-String mydate = sdf.format(now_plus_5_minutes); 
+String mydate = sdf.format(now_plus_3_hour); 
 vars.put(&quot;mydate&quot;,mydate);</stringProp>
           </BeanShellPreProcessor>
           <hashTree/>
