@@ -137,7 +137,7 @@
           <boolProp name="LoopController.continue_forever">false</boolProp>
           <stringProp name="LoopController.loops">1</stringProp>
         </elementProp>
-        <stringProp name="ThreadGroup.num_threads">100</stringProp>
+        <stringProp name="ThreadGroup.num_threads">1</stringProp>
         <stringProp name="ThreadGroup.ramp_time">1</stringProp>
         <longProp name="ThreadGroup.start_time">1471972133000</longProp>
         <longProp name="ThreadGroup.end_time">1471972133000</longProp>
@@ -431,7 +431,7 @@
             <collectionProp name="Arguments.arguments">
               <elementProp name="" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">{&quot;DueDate&quot;:&quot;8/23/2016 21.00&quot;,&quot;DueTimeSpecified&quot;:true}</stringProp>
+                <stringProp name="Argument.value">{&quot;DueDate&quot;:&quot;${__V(mydate)}&quot;,&quot;DueTimeSpecified&quot;:true}</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
             </collectionProp>
@@ -452,6 +452,24 @@
           <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
         </HTTPSamplerProxy>
         <hashTree>
+          <BeanShellPreProcessor guiclass="TestBeanGUI" testclass="BeanShellPreProcessor" testname="BeanShell PreProcessor" enabled="true">
+            <stringProp name="filename"></stringProp>
+            <stringProp name="parameters"></stringProp>
+            <boolProp name="resetInterpreter">false</boolProp>
+            <stringProp name="script">import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
+Date now = new Date();
+Calendar c = Calendar.getInstance();
+c.setTime(now);
+c.add(Calendar.MINUTE, 180); // add 180 minutes to current time
+Date now_plus_5_minutes = c.getTime();
+SimpleDateFormat sdf = new SimpleDateFormat(&quot;HH:mm:ss&quot;);      
+String mydate = sdf.format(now_plus_5_minutes); 
+vars.put(&quot;mydate&quot;,mydate);</stringProp>
+          </BeanShellPreProcessor>
+          <hashTree/>
           <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer" enabled="true">
             <stringProp name="ConstantTimer.delay">${__Random(${TIME_MIN},${TIME_MAX})}</stringProp>
           </ConstantTimer>
@@ -697,7 +715,7 @@
         </ResultCollector>
         <hashTree/>
       </hashTree>
-      <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="Ver Árbol de Resultados" enabled="false">
+      <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="Ver Árbol de Resultados" enabled="true">
         <boolProp name="ResultCollector.error_logging">false</boolProp>
         <objProp>
           <name>saveConfig</name>
